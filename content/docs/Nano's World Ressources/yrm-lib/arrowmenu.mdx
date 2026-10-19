@@ -1,0 +1,178 @@
+---
+title: "ShowArrowMenu"
+description: "Afficher un menu de sélection avec yrm-lib."
+---
+
+# YRM.ShowArrowMenu
+
+`YRM.ShowArrowMenu` permet d'afficher un menu de sélection dans l'interface du joueur. Il propose des éléments contenant plusieurs valeurs parmi lesquelles le joueur peut naviguer et sélectionner une option.
+
+## Utilisation
+
+La fonction `YRM.ShowArrowMenu` accepte une table de configuration Lua et une fonction de callback permettant de traiter l'action effectuée par le joueur.
+
+### Syntaxe
+
+```lua
+YRM.ShowArrowMenu({
+    title = "Choisir un métier",
+    position = "top-left",
+    items = {
+        {
+            id = "job",
+            label = "Métier",
+            values = {
+                "Policier",
+                "Mécanicien",
+                "Médecin"
+            },
+            valueIndex = 0
+        }
+    }
+}, function(result)
+    if not result then return end
+
+    if result.action == "cancel" then
+        print("Menu fermé")
+        return
+    end
+
+    if result.action == "select" and result.item then
+        print("Option sélectionnée :", result.item.id)
+    end
+end)
+```
+
+## Paramètres
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `title` | `string` | Non confirmé | Titre affiché dans le menu. |
+| `position` | `string` | Non confirmé | Position du menu à l'écran. |
+| `items` | `table` | Non confirmé | Liste des éléments proposés dans le menu. |
+| `callback` | `function` | Non confirmé | Fonction appelée pour traiter l'action du joueur. |
+
+## Paramètres des éléments
+
+Chaque entrée de `items` définit un élément du menu et les valeurs disponibles.
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `id` | `string` | Non confirmé | Identifiant de l'élément. |
+| `label` | `string` | Non confirmé | Texte affiché pour l'élément. |
+| `values` | `table` | Non confirmé | Liste des valeurs disponibles. |
+| `valueIndex` | `number` | Non confirmé | Index initial de la valeur sélectionnée dans l'exemple. |
+
+## Positions disponibles
+
+L'exemple fourni utilise la position `top-left`.
+
+```lua
+position = "top-left"
+```
+
+## Gestion du résultat
+
+Le callback reçoit un résultat permettant d'identifier l'action effectuée et l'élément concerné.
+
+| Paramètre | Type | Description |
+|---|---|---|
+| `result` | `table` | Résultat renvoyé au callback. |
+| `result.action` | `string` | Action effectuée, comme `cancel` ou `select` dans l'exemple. |
+| `result.item` | `table` | Élément associé à la sélection. |
+| `result.item.id` | `string` | Identifiant de l'élément sélectionné. |
+
+## Exemple simple
+
+Afficher un menu permettant de choisir un métier.
+
+```lua
+YRM.ShowArrowMenu({
+    title = "Choisir un métier",
+    position = "top-left",
+    items = {
+        {
+            id = "job",
+            label = "Métier",
+            values = {
+                "Policier",
+                "Mécanicien",
+                "Médecin"
+            },
+            valueIndex = 0
+        }
+    }
+}, function(result)
+    if not result then return end
+
+    if result.action == "cancel" then
+        print("Menu fermé")
+        return
+    end
+
+    if result.action == "select" and result.item then
+        print("Option sélectionnée :", result.item.id)
+    end
+end)
+```
+
+## Exemples d'utilisation
+
+### Choix d'un véhicule
+
+```lua
+YRM.ShowArrowMenu({
+    title = "Choisir un véhicule",
+    position = "top-left",
+    items = {
+        {
+            id = "vehicle",
+            label = "Véhicule",
+            values = {
+                "Berline",
+                "SUV",
+                "Moto"
+            },
+            valueIndex = 0
+        }
+    }
+}, function(result)
+    if not result then return end
+
+    if result.action == "select" and result.item then
+        print("Élément sélectionné :", result.item.id)
+    end
+end)
+```
+
+### Choix d'un grade
+
+```lua
+YRM.ShowArrowMenu({
+    title = "Choisir un grade",
+    position = "top-left",
+    items = {
+        {
+            id = "rank",
+            label = "Grade",
+            values = {
+                "Recrue",
+                "Membre",
+                "Chef"
+            },
+            valueIndex = 0
+        }
+    }
+}, function(result)
+    if not result then return end
+
+    if result.action == "cancel" then
+        print("Sélection annulée")
+        return
+    end
+
+    if result.action == "select" and result.item then
+        print("Élément sélectionné :", result.item.id)
+    end
+end)
+```

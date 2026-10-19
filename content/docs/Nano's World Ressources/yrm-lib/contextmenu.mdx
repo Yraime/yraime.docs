@@ -1,0 +1,113 @@
+---
+title: "OpenContextMenu"
+description: "Afficher des menus contextuels interactifs avec yrm-lib."
+---
+
+# YRM.OpenContextMenu
+
+`YRM.OpenContextMenu` permet d'afficher un menu contextuel dans l'interface du joueur. Il peut être utilisé pour proposer différentes actions, comme consulter un profil ou ouvrir un inventaire.
+
+## Utilisation
+
+La fonction `YRM.OpenContextMenu` accepte une table de configuration Lua contenant les paramètres du menu et ses options.
+
+### Syntaxe
+
+```lua
+YRM.OpenContextMenu({
+    id = "player-menu",
+    title = "Menu joueur",
+    options = {
+        {
+            id = "profile",
+            label = "Voir le profil"
+        },
+        {
+            id = "inventory",
+            label = "Ouvrir l'inventaire"
+        }
+    }
+})
+```
+
+## Paramètres
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `id` | `string` | Non confirmé | Identifiant du menu contextuel. |
+| `title` | `string` | Non confirmé | Titre affiché dans le menu. |
+| `options` | `table` | Non confirmé | Liste des options proposées au joueur. |
+
+## Paramètres des options
+
+Chaque entrée de `options` est une table décrivant une option du menu.
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `id` | `string` | Non confirmé | Identifiant de l'option. |
+| `label` | `string` | Non confirmé | Texte affiché pour l'option. |
+
+## Exemple simple
+
+Afficher un menu permettant au joueur de consulter son profil ou d'ouvrir son inventaire.
+
+```lua
+YRM.OpenContextMenu({
+    id = "player-menu",
+    title = "Menu joueur",
+    options = {
+        {
+            id = "profile",
+            label = "Voir le profil"
+        },
+        {
+            id = "inventory",
+            label = "Ouvrir l'inventaire"
+        }
+    }
+})
+```
+
+## Exemples d'utilisation
+
+### Menu de gestion du joueur
+
+```lua
+YRM.OpenContextMenu({
+    id = "player-actions",
+    title = "Actions du joueur",
+    options = {
+        {
+            id = "profile",
+            label = "Voir le profil"
+        },
+        {
+            id = "inventory",
+            label = "Ouvrir l'inventaire"
+        },
+        {
+            id = "settings",
+            label = "Paramètres"
+        }
+    }
+})
+```
+
+### Menu de gestion d'un véhicule
+
+```lua
+YRM.OpenContextMenu({
+    id = "vehicle-menu",
+    title = "Gestion du véhicule",
+    options = {
+        {
+            id = "lock",
+            label = "Verrouiller le véhicule"
+        },
+        {
+            id = "unlock",
+            label = "Déverrouiller le véhicule"
+        }
+    }
+})
+```

@@ -1,0 +1,118 @@
+---
+title: "OpenDialog"
+description: "Afficher des boîtes de dialogue interactives avec yrm-lib."
+---
+
+# YRM.OpenDialog
+
+`YRM.OpenDialog` permet d'afficher des boîtes de dialogue interactives dans l'interface du joueur. Ce module est conçu pour demander une confirmation, présenter une information ou permettre au joueur de confirmer ou d'annuler une action.
+
+## Utilisation
+
+La fonction `YRM.OpenDialog` accepte une table de configuration Lua en premier argument et un callback en second argument pour récupérer le résultat de l'interaction.
+
+### Syntaxe
+
+```lua
+YRM.OpenDialog({
+    title = "Titre",
+    description = "Description",
+    position = "center",
+    confirmText = "Confirmer",
+    canCancel = true,
+    cancelText = "Annuler",
+}, function(result)
+    -- Traitement du résultat
+end)
+```
+
+## Paramètres
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `title` | `string` | Non confirmé | Titre affiché dans la boîte de dialogue. |
+| `description` | `string` | Non confirmé | Texte descriptif de la boîte de dialogue. |
+| `position` | `string` | Non confirmé | Position de la boîte de dialogue à l'écran. |
+| `confirmText` | `string` | Non confirmé | Texte du bouton de confirmation. |
+| `canCancel` | `boolean` | Non confirmé | Indique si l'annulation est autorisée. |
+| `cancelText` | `string` | Non confirmé | Texte du bouton d'annulation. |
+| `callback` | `function` | Non confirmé | Fonction appelée pour récupérer le résultat de l'interaction. |
+
+## Positions disponibles
+
+Le module utilise le paramètre `position` pour définir l'emplacement de la boîte de dialogue.
+
+| Position | Utilisation |
+|---|---|
+| `center` | Affiche la boîte de dialogue au centre de l'écran. |
+| `top` | Affiche la boîte de dialogue en haut de l'écran. |
+| `bottom` | Affiche la boîte de dialogue en bas de l'écran. |
+
+## Gestion du résultat
+
+Le callback reçoit un objet `result` permettant de déterminer si le joueur a confirmé ou annulé l'action.
+
+| Propriété | Type | Description |
+|---|---|---|
+| `result` | `table` | Résultat transmis au callback. |
+| `result.confirmed` | `boolean` | Indique si le joueur a confirmé l'action. |
+
+## Exemple simple
+
+Afficher une boîte de dialogue demandant au joueur de confirmer une action.
+
+```lua
+YRM.OpenDialog({
+    title = "Confirmation",
+    description = "Souhaites-tu continuer ?",
+    position = "center",
+    confirmText = "Confirmer",
+    canCancel = true,
+    cancelText = "Annuler",
+}, function(result)
+    if result and result.confirmed then
+        print("Confirmation acceptée")
+    else
+        print("Confirmation annulée")
+    end
+end)
+```
+
+Dans cet exemple, le callback vérifie la propriété `result.confirmed` pour déterminer si le joueur a accepté la confirmation.
+
+## Exemples d'utilisation
+
+### Confirmation d'une action
+
+```lua
+YRM.OpenDialog({
+    title = "Quitter le service",
+    description = "Souhaites-tu vraiment quitter ton service actuel ?",
+    position = "center",
+    confirmText = "Quitter",
+    canCancel = true,
+    cancelText = "Rester",
+}, function(result)
+    if result and result.confirmed then
+        print("Le joueur a confirmé son départ")
+    else
+        print("Le joueur a annulé son départ")
+    end
+end)
+```
+
+### Affichage d'une information
+
+```lua
+YRM.OpenDialog({
+    title = "Information",
+    description = "Ton personnage a été enregistré avec succès.",
+    position = "center",
+    confirmText = "Compris",
+    canCancel = false,
+}, function(result)
+    if result and result.confirmed then
+        print("Information confirmée")
+    end
+end)
+```

@@ -1,0 +1,95 @@
+---
+title: "ProgressBar"
+description: "Afficher une barre de progression avec yrm-lib."
+---
+
+# YRM.ProgressBar
+
+`YRM.ProgressBar` permet d'afficher une barre de progression pendant une opération. Le module peut également permettre au joueur d'annuler l'opération selon la configuration utilisée.
+
+## Utilisation
+
+La fonction `YRM.ProgressBar` accepte une table de configuration Lua et une fonction de callback appelée à la fin de l'opération.
+
+### Syntaxe
+
+```lua
+YRM.ProgressBar({
+    label = "Chargement...",
+    duration = 10000,
+    canCancel = true
+}, function(result)
+    if result and result.cancelled then
+        print("Opération annulée")
+    else
+        print("Opération terminée")
+    end
+end)
+```
+
+## Paramètres
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `label` | `string` | Non confirmé | Texte affiché pendant la progression. |
+| `duration` | `number` | Non confirmé | Durée de la progression, exprimée en millisecondes dans l'exemple. |
+| `canCancel` | `boolean` | Non confirmé | Indique si l'opération peut être annulée. |
+| `callback` | `function` | Non confirmé | Fonction appelée pour traiter le résultat de l'opération. |
+
+## Gestion du résultat
+
+Le callback reçoit un résultat permettant de distinguer une annulation d'une opération terminée.
+
+| Paramètre | Type | Description |
+|---|---|---|
+| `result` | `table` | Résultat renvoyé au callback. |
+| `result.cancelled` | `boolean` | Indique si l'opération a été annulée. |
+
+## Exemple simple
+
+Afficher une progression de 10 secondes avec la possibilité d'annuler.
+
+```lua
+YRM.ProgressBar({
+    label = "Chargement...",
+    duration = 10000,
+    canCancel = true
+}, function(result)
+    if result and result.cancelled then
+        print("Opération annulée")
+    else
+        print("Opération terminée")
+    end
+end)
+```
+
+## Exemples d'utilisation
+
+### Réparation d'un véhicule
+
+```lua
+YRM.ProgressBar({
+    label = "Réparation du véhicule...",
+    duration = 8000,
+    canCancel = true
+}, function(result)
+    if result and result.cancelled then
+        print("Réparation annulée")
+        return
+    end
+
+    print("Réparation terminée")
+end)
+```
+
+### Chargement sans annulation
+
+```lua
+YRM.ProgressBar({
+    label = "Chargement des données...",
+    duration = 5000,
+    canCancel = false
+}, function(result)
+    print("Chargement terminé")
+end)
+```

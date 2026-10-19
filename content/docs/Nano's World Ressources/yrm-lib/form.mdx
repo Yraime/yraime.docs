@@ -1,0 +1,186 @@
+---
+title: "OpenForm"
+description: "Créer des formulaires dynamiques avec yrm-lib."
+---
+
+# YRM.OpenForm
+
+`YRM.OpenForm` permet d'afficher des formulaires interactifs dans l'interface du joueur. Ce module permet de collecter des informations à travers différents types de champs, de définir des valeurs par défaut et de récupérer les données saisies grâce à un callback.
+
+## Utilisation
+
+La fonction `YRM.OpenForm` accepte une table de configuration Lua en premier argument et un callback en second argument pour récupérer les valeurs du formulaire ou son annulation.
+
+### Syntaxe
+
+```lua
+YRM.OpenForm({
+    title = "Titre du formulaire",
+    fields = {
+        {
+            name = "username",
+            label = "Nom d'utilisateur",
+            type = "text",
+            required = true,
+            placeholder = "Saisir un nom..."
+        },
+    }
+}, function(result)
+    if result.cancelled then return end
+
+    local values = result.values
+    print("Nom d'utilisateur :", values.username)
+end)
+```
+
+## Paramètres
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `title` | `string` | Non confirmé | Titre affiché dans le formulaire. |
+| `fields` | `table` | Non confirmé | Liste des champs à afficher dans le formulaire. |
+| `callback` | `function` | Non confirmé | Fonction appelée pour récupérer le résultat du formulaire. |
+
+## Paramètres des champs
+
+Chaque élément de la table `fields` représente un champ du formulaire.
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `name` | `string` | Non confirmé | Identifiant du champ utilisé pour récupérer sa valeur dans `result.values`. |
+| `label` | `string` | Non confirmé | Texte affiché pour identifier le champ. |
+| `type` | `string` | Non confirmé | Type de champ à afficher. |
+| `required` | `boolean` | Non confirmé | Indique si le champ est obligatoire. |
+| `placeholder` | `string` | Non confirmé | Texte indicatif affiché lorsque le champ est vide. |
+| `default` | `any` | Non confirmé | Valeur initiale du champ. |
+| `disabled` | `boolean` | Non confirmé | Indique si le champ est désactivé. |
+| `options` | `table` | Non confirmé | Liste des options disponibles pour certains types de champs. |
+| `min` | `number` | Non confirmé | Valeur minimale, notamment pour les champs numériques et les curseurs. |
+| `max` | `number` | Non confirmé | Valeur maximale, notamment pour les champs numériques, les curseurs et les notes. |
+
+## Types de champs disponibles
+
+Les exemples de la bibliothèque utilisent les types suivants.
+
+| Type | Utilisation |
+|---|---|
+| `text` | Saisie de texte. |
+| `password` | Saisie d'un mot de passe. |
+| `number` | Saisie d'une valeur numérique. |
+| `search` | Champ de recherche. |
+| `url` | Saisie d'une adresse web. |
+| `date` | Sélection d'une date. |
+| `time` | Sélection d'une heure. |
+| `color` | Sélection d'une couleur. |
+| `range` | Sélection d'une valeur à l'aide d'un curseur. |
+| `toggle` | Activation ou désactivation d'une option. |
+| `checkbox` | Case à cocher. |
+| `select` | Sélection d'une option dans une liste. |
+| `rating` | Attribution d'une note. |
+
+## Options des champs de sélection
+
+Le type `select` utilise le paramètre `options` pour définir les choix disponibles.
+
+Chaque option contient un libellé `label` et une valeur `value`.
+
+| Paramètre | Type | Description |
+|---|---|---|
+| `options` | `table` | Liste des options disponibles. |
+| `options[].label` | `string` | Texte affiché pour l'option. |
+| `options[].value` | `any` | Valeur associée à l'option. |
+
+### Exemple
+
+```lua
+{
+    name = "rank",
+    label = "Grade",
+    type = "select",
+    options = {
+        { label = "Recrue", value = "recruit" },
+        { label = "Membre", value = "member" },
+        { label = "Chef", value = "leader" }
+    },
+    default = "member"
+}
+```
+
+## Gestion du résultat
+
+Le callback reçoit un objet `result` contenant l'état du formulaire et les valeurs saisies.
+
+| Propriété | Type | Description |
+|---|---|---|
+| `result` | `table` | Objet transmis au callback. |
+| `result.cancelled` | `boolean` | Indique si le formulaire a été annulé. |
+| `result.values` | `table` | Table contenant les valeurs des champs du formulaire. |
+| `result.values[name]` | `any` | Valeur associée au nom du champ. |
+
+## Exemple simple
+
+```lua
+YRM.OpenForm({
+    title = "Profil du joueur",
+    fields = {
+        {
+            name = "username",
+            label = "Nom d'utilisateur",
+            type = "text",
+            required = true,
+            placeholder = "Saisir un nom..."
+        },
+        {
+            name = "age",
+            label = "Âge",
+            type = "number",
+            required = true
+        },
+    }
+}, function(result)
+    if result.cancelled then return end
+
+    local values = result.values
+
+    print("Nom :", values.username)
+    print("Âge :", values.age)
+end)
+```
+
+## Exemples d'utilisation
+
+### Configuration des préférences
+
+```lua
+YRM.OpenForm({
+    title = "Préférences",
+    fields = {
+        {
+            name = "color",
+            label = "Couleur préférée",
+            type = "color",
+            default = "#552583"
+        },
+        {
+            name = "notifications",
+            label = "Activer les notifications",
+            type = "toggle",
+            default = true
+        },
+        {
+            name = "accepted",
+            label = "J'accepte les conditions",
+            type = "checkbox",
+            required = true
+        },
+    }
+}, function(result)
+    if result.cancelled then return end
+
+    local values = result.values
+
+    print("Couleur :", values.color)
+    print("Notifications :", values.notifications)
+    print("Conditions acceptées :", values.accepted)
+end)
+```

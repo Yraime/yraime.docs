@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+html {
+  scrollbar-width: none; /* Pour Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Pour Chrome, Safari et Edge */
+}
+body {
+  font-family: monospace;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  color: #f8fafc;
+  white-space: pre-wrap;
+}
+
+
+@keyframes terminal-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+
+.character-wave-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+html:not(.dark) .character-wave-canvas {
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-wave-canvas {
+    display: none;
+  }
+}
+
+
+/* Accessibilité : réduction des animations */
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-text::before,
+  .glitch-text::after,
+  .terminal-cursor {
+    animation: none;
+    display: none;
+  }
+
+  .cyber-card,
+  .cyber-button {
+    transition: none;
+  }
+
+  .cyber-card:hover {
+    transform: none;
+  }
+}
+
+
+
+
+
+

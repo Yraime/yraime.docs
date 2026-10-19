@@ -1,0 +1,113 @@
+---
+title: "Notify"
+description: "Afficher des notifications personnalisées avec yrm-lib."
+---
+
+# YRM.Notify
+
+`YRM.Notify` permet d'afficher des notifications visuelles dans l'interface du joueur. Ce module est conçu pour communiquer des informations importantes, confirmer une action ou signaler un avertissement dans un environnement nanos world.
+
+## Utilisation
+
+La fonction `YRM.Notify` accepte une table de configuration Lua contenant les paramètres de la notification.
+
+### Syntaxe
+
+```lua
+YRM.Notify({
+    title = "Titre",
+    description = "Description",
+    position = "top-left",
+    type = "success",
+    duration = 5000
+})
+```
+
+## Paramètres
+
+| Paramètre | Type | Obligatoire | Description |
+|---|---|---|---|
+| `title` | `string` | Non confirmé | Titre affiché dans la notification. |
+| `description` | `string` | Non confirmé | Texte descriptif de la notification. |
+| `position` | `string` | Non confirmé | Position de la notification à l'écran. |
+| `type` | `string` | Non confirmé | Type visuel de la notification. |
+| `duration` | `number` | Non confirmé | Durée d'affichage, exprimée en millisecondes dans l'exemple. |
+
+## Positions disponibles
+
+L'exemple fourni utilise la position `top-left`.
+
+```lua
+position = "top-left"
+```
+
+Cette valeur correspond à une position en haut à gauche de l'écran, sous réserve de confirmation par l'implémentation du module.
+
+Les autres positions éventuellement prises en charge doivent être documentées à partir du code source.
+
+## Types de notification
+
+Le module utilise plusieurs types visuels dans les exemples du projet.
+
+| Type | Utilisation |
+|---|---|
+| `accent` | Notification avec une mise en évidence visuelle. |
+| `success` | Confirmer la réussite d'une action. |
+| `error` | Signaler une erreur. |
+| `warning` | Attirer l'attention sur un avertissement. |
+
+Les styles exacts associés à chaque type dépendent de l'implémentation WebUI.
+
+## Exemple simple
+
+Afficher une notification de bienvenue lorsque la bibliothèque est opérationnelle.
+
+```lua
+YRM.Notify({
+    title = "Bienvenue",
+    description = "La bibliothèque fonctionne correctement.",
+    position = "top-left",
+    type = "success",
+    duration = 5000
+})
+```
+
+Dans cet exemple, la notification contient un titre, un message descriptif, une position, un type visuel et une durée d'affichage de 5 secondes.
+
+## Exemples d'utilisation
+
+### Notification de réussite
+
+```lua
+YRM.Notify({
+    title = "Succès",
+    description = "Votre action a été effectuée.",
+    position = "top-left",
+    type = "success",
+    duration = 5000
+})
+```
+
+### Notification d'avertissement
+
+```lua
+YRM.Notify({
+    title = "Attention",
+    description = "Vous devez vérifier cette information.",
+    position = "top-left",
+    type = "warning",
+    duration = 5000
+})
+```
+
+### Notification d'erreur
+
+```lua
+YRM.Notify({
+    title = "Erreur",
+    description = "Une erreur est survenue.",
+    position = "top-left",
+    type = "error",
+    duration = 5000
+})
+```
