@@ -1,8 +1,8 @@
 import { source } from '@/lib/source';
 import { createFromSource } from 'fumadocs-core/search/server';
 
-export const dynamic = 'force-static';
+// On indique à Next.js de mettre en cache de manière statique cette route
+export const revalidate = false;
 
-export const { GET } = createFromSource(source, {
-  type: 'static'
-});
+// On exporte la méthode staticGET renommée en GET
+export const { staticGET: GET } = createFromSource(source);
