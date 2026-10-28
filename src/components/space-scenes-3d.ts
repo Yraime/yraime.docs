@@ -225,9 +225,9 @@ export class SpaceScene3D {
     }
     this.blackHoleGroup.add(this.photonRingsGroup);
 
-    const loader = new GLTFLoader();
+    const  = new GLTF();
     loader.load(
-      "/models/black_hole.glb",
+      "/yraime.docs/models/black_hole.glb",
       (gltf) => {
         if (this.destroyed) return;
         const model = gltf.scene;
