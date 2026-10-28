@@ -227,7 +227,7 @@ export class SpaceScene3D {
 
     const  = new GLTF();
     loader.load(
-      "/yraime.docs/models/black_hole.glb",
+      "/models/black_hole.glb",
       (gltf) => {
         if (this.destroyed) return;
         const model = gltf.scene;
