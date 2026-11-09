@@ -225,7 +225,7 @@ export class SpaceScene3D {
     }
     this.blackHoleGroup.add(this.photonRingsGroup);
 
-    const loader = new GLTFLoader();
+const loader = new GLTFLoader();
     const modelBase = process.env.NEXT_PUBLIC_BASE_PATH || "";
     loader.load(
       `${modelBase}/models/black_hole.glb`,
