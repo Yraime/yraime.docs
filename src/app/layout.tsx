@@ -8,7 +8,7 @@ const inter = Inter({
 
 export default function Layout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html lang="fr" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
         {/* On force le thème sur "dark" et on désactive le raccourci clavier "D" */}
         <RootProvider

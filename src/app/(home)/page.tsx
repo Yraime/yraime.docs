@@ -57,21 +57,21 @@ function Linkedin({ className, ...rest }: BrandIconProps) {
 /* -------------------------------------------------------------------------- */
 
 const PROFILE = {
-  name: "ALEX MARTIN",
-  role: "Développeur Fullstack",
-  version: "V.1.0",
-  bio: "Je conçois des applications web rapides, accessibles et un peu hors normes. Du schéma de base de données jusqu'au dernier pixel.",
+  name: "Yraime",
+  role: "Développeur",
+  version: "V3.1",
+  bio: "Bienvenue sur mon portfolio. Découvrez mes projets et mes scripts en faisant défiler la page.",
   about:
-    "Développeur fullstack basé dans les Hauts-de-France. Je transforme des idées floues en produits fiables, de la maquette à la mise en production.",
-  email: "alex@exemple.dev",
-  github: "https://github.com/votre-pseudo",
-  linkedin: "https://linkedin.com/in/votre-pseudo",
+    "Développeur full-stack et créateur de scripts, curieux et agile sur l'ensemble des technologies du numérique.",
+  email: "",
+  github: "https://github.com/Yraime",
+  linkedin: "",
 };
 
 const STATS = [
-  { value: "5+", label: "ans d'expérience" },
-  { value: "30+", label: "projets livrés" },
-  { value: "100%", label: "TypeScript" },
+  { value: "3", label: "ans d'études en Cyber & Informatique" },
+  { value: "3", label: "serveurs conçus (FiveM, GMod, Nanos)" },
+  { value: "2", label: "scripts Lua disponibles publiquement" },
 ];
 
 type TerminalLine = { kind: "cmd" | "out"; text: string };
@@ -99,37 +99,36 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    code: "PRJ_01",
-    title: "Neon Docs",
+    code: "PROJET_01",
+    title: "American Life RolePlay",
     description:
-      "Plateforme de documentation technique propulsée par Fumadocs, avec recherche instantanée et thème sur mesure.",
-    tech: ["Next.js", "Fumadocs", "MDX", "Tailwind"],
-    repo: "https://github.com/votre-pseudo/neon-docs",
-    demo: "https://neon-docs.exemple.dev",
+      "Serveur RolePlay sur le nouveau jeux Bac a sable Nano's World",
+    tech: ["Lua", "Html", "Unreal Engine"],
+    demo: "https://nanos-world.com/community/projects/americanlife-roleplay",
   },
   {
-    code: "PRJ_02",
-    title: "Pulse Board",
+    code: "PROJET_02",
+    title: "Unknow",
     description:
-      "Tableau de bord temps réel pour suivre des métriques d'équipe : graphiques en direct, alertes et rôles.",
-    tech: ["React", "TypeScript", "WebSocket", "PostgreSQL"],
-    repo: "https://github.com/votre-pseudo/pulse-board",
+      "",
+    tech: [],
+    repo: "#",
   },
   {
-    code: "PRJ_03",
-    title: "Quantum Shop",
+    code: "PROJET_03",
+    title: "Unknow",
     description:
-      "E-commerce headless avec panier persistant, paiement Stripe et back-office pour gérer le catalogue.",
-    tech: ["Next.js", "Stripe", "Prisma", "Redis"],
-    demo: "https://quantum-shop.exemple.dev",
+      "",
+    tech: [],
+    demo: "#",
   },
   {
-    code: "PRJ_04",
-    title: "Ghost CLI",
+    code: "PROJET_04",
+    title: "Unknow",
     description:
-      "Outil en ligne de commande qui génère des projets Next.js prêts à l'emploi : lint, CI et déploiement inclus.",
-    tech: ["Node.js", "TypeScript", "Commander"],
-    repo: "https://github.com/votre-pseudo/ghost-cli",
+      "",
+    tech: [],
+    repo: "#",
   },
 ];
 
@@ -141,12 +140,10 @@ type StackModule = {
 };
 
 const STACK: StackModule[] = [
-  { code: "DEV_01", title: "Frontend", icon: Code2, items: ["Next.js", "React", "TypeScript"] },
-  { code: "DEV_02", title: "Interface", icon: Palette, items: ["Tailwind CSS", "Framer Motion", "Figma"] },
-  { code: "DEV_03", title: "Backend", icon: Server, items: ["Node.js", "tRPC", "GraphQL"] },
-  { code: "DEV_04", title: "Données", icon: Database, items: ["PostgreSQL", "Prisma", "Redis"] },
-  { code: "DEV_05", title: "Docs", icon: Terminal, items: ["Fumadocs", "MDX", "Storybook"] },
-  { code: "DEV_06", title: "DevOps", icon: Cpu, items: ["Docker", "GitHub Actions", "Vercel"] },
+  { code: "01", title: "Frontend", icon: Code2, items: ["Lua", "Html", "React"] },
+  { code: "02", title: "Interface", icon: Palette, items: ["CSS", "Figma"] },
+  { code: "03", title: "Backend", icon: Server, items: ["Lua", "Php"] },
+  { code: "04", title: "Données", icon: Database, items: ["SQL"] },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -511,12 +508,9 @@ type WarpItem = {
 const cardShell =
   "w-[min(78vw,330px)] rounded-lg border border-cyan-200/25 bg-gradient-to-br from-cyan-300/[0.09] to-slate-950/75 p-4 text-left text-slate-100 backdrop-blur-md sm:p-5";
 
-function TitleNode({ code, title }: { code: string; title: string }) {
+function TitleNode({ title }: { code: string; title: string }) {
   return (
     <div className="w-[92vw] max-w-3xl text-center">
-      <p className="mb-3 font-mono text-[10px] tracking-[0.35em] text-cyan-200/80 sm:text-xs">
-        // {code}
-      </p>
       <h2 className="text-4xl font-black uppercase leading-[1.05] tracking-tight text-white drop-shadow-[0_0_28px_rgba(56,189,248,0.35)] sm:text-6xl lg:text-7xl">
         {title}
       </h2>
@@ -529,7 +523,7 @@ function AboutNode() {
   return (
     <div className={cardShell}>
       <p className="font-mono text-[10px] tracking-[0.22em] text-cyan-200/70">
-        PILOT PROFILE / 001
+        DESCRITIPON
       </p>
       <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base">
         {PROFILE.about}
@@ -542,7 +536,7 @@ function StatsNode() {
   return (
     <div className={cardShell}>
       <p className="font-mono text-[10px] tracking-[0.22em] text-cyan-200/70">
-        MISSION STATS
+        STATISTIQUE
       </p>
       <div className="mt-3 grid grid-cols-3 gap-2">
         {STATS.map((stat) => (
@@ -636,7 +630,7 @@ const WARP_ITEMS_RAW: WarpItem[] = [
     end: 0.55,
     x: 0,
     y: -0.02,
-    node: <TitleNode code="SYS_01 // IDENTITÉ" title="Qui suis-je ?" />,
+    node: <TitleNode title="Qui suis-je ?" />,
   },
   {
     id: "about",
@@ -664,7 +658,7 @@ const WARP_ITEMS_RAW: WarpItem[] = [
     end: 0.69,
     x: 0,
     y: -0.02,
-    node: <TitleNode code="SYS_02 // MISSIONS" title="Mes projets" />,
+    node: <TitleNode title="Mes projets" />,
   },
   ...PROJECTS.map((project, i) => ({
     id: project.code,
@@ -685,8 +679,7 @@ const WARP_ITEMS_RAW: WarpItem[] = [
     y: -0.02,
     node: (
       <TitleNode
-        code="CORE_03 // TECHNOLOGIES"
-        title="Mon arsenal"
+        title="Mes connaissance"
       />
     ),
   },
@@ -716,9 +709,9 @@ const WARP_ITEMS: WarpItem[] = WARP_ITEMS_RAW.map((item) => ({
 const TUNNEL_END = 0.66;
 
 function Hero({
-  onProjectsClick,
+
 }: {
-  onProjectsClick: (e: MouseEvent<HTMLAnchorElement>) => void;
+ 
 }) {
   return (
     <section className="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-6 py-16 text-center">
@@ -741,11 +734,10 @@ function Hero({
 
       <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
         <a
-          href="#projects"
-          onClick={onProjectsClick}
+          href="./docs"
           className={`inline-flex items-center gap-2 rounded-full bg-slate-900 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-700 dark:bg-cyan-300 dark:text-slate-950 dark:hover:bg-cyan-200 ${focusRing}`}
         >
-          <WaveText>Voir mes projets</WaveText>
+          <WaveText>Voir les Docs</WaveText>
           <ArrowDownRight size={16} aria-hidden />
         </a>
         <a
@@ -970,15 +962,6 @@ function WarpTunnel() {
         speedRef.current.textContent = `${Math.round((velocity / MAX_SPEED) * 100)}%`;
       }
       if (barRef.current) barRef.current.style.width = `${raw * 100}%`;
-      if (modeRef.current) {
-        const text =
-          space > 0.65
-            ? "WARNING // EVENT HORIZON PENETRATION"
-            : space > 0.02
-              ? "SUPERMASSIVE BLACK HOLE // APPROACH"
-              : "HYPERDRIVE // ENGAGED";
-        if (modeRef.current.textContent !== text) modeRef.current.textContent = text;
-      }
     };
 
     // Dessine le trou noir massif en 3D (Three.js) avec HUD télémétrique.
@@ -1215,8 +1198,7 @@ function WarpTunnel() {
               className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between p-5 font-mono text-[10px] tracking-[0.2em] text-cyan-200/90 sm:text-[11px]"
             >
               <div>
-                <p ref={modeRef}>HYPERDRIVE // ENGAGED</p>
-                <p className="mt-1 text-slate-500">DISTANCE <span ref={distRef}>00000</span> AL</p>
+
               </div>
               <div className="text-right">
                 <p>VELOCITY <span ref={speedRef}>0%</span></p>
@@ -1229,8 +1211,6 @@ function WarpTunnel() {
               aria-hidden="true"
               className="pointer-events-none absolute inset-x-0 bottom-14 z-10 text-center font-mono text-xs tracking-[0.25em] text-cyan-200"
             >
-              <p>HYPERDRIVE READY</p>
-              <p className="mt-2 animate-pulse text-slate-400 motion-reduce:animate-none">SCROLLE POUR ENTRER DANS L’HYPERESPACE</p>
             </div>
           </div>
 
@@ -1283,7 +1263,7 @@ function WarpTunnel() {
 
           {/* Texte du Hero (zoome avec le calque d'arrière-plan) */}
           <div ref={heroInnerRef} className="absolute inset-0 will-change-transform">
-            <Hero onProjectsClick={goToProjects} />
+            <Hero />
           </div>
         </div>
 

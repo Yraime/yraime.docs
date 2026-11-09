@@ -226,8 +226,9 @@ export class SpaceScene3D {
     this.blackHoleGroup.add(this.photonRingsGroup);
 
     const loader = new GLTFLoader();
+    const modelBase = process.env.NEXT_PUBLIC_BASE_PATH || "";
     loader.load(
-      "/models/black_hole.glb",
+      `${modelBase}/models/black_hole.glb`,
       (gltf) => {
         if (this.destroyed) return;
         const model = gltf.scene;
@@ -512,18 +513,8 @@ export class SpaceScene3D {
     if (plunge > 0.4) {
       const alertAlpha = 0.7 + Math.sin(Date.now() * 0.015) * 0.3;
       ctx.fillStyle = `rgba(255, 60, 60, ${alertAlpha})`;
-      ctx.fillText(
-        "CRITICAL // EVENT HORIZON PENETRATION IMMINENT",
-        cx,
-        this.height - 42
-      );
     } else {
       ctx.fillStyle = "rgba(255, 140, 60, 0.85)";
-      ctx.fillText(
-        "SUPERMASSIVE BLACK HOLE // GARGANTUA CLASS",
-        cx,
-        this.height - 42
-      );
     }
 
     ctx.restore();

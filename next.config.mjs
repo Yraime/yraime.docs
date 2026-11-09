@@ -2,16 +2,12 @@ import { createMDX } from 'fumadocs-mdx/next';
 
 const withMDX = createMDX();
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  output: 'export',
-  images: {
-    unoptimized: true,
-  },
-  // Ajoutez ceci UNIQUEMENT si le site n'est pas à la racine de votre domaine :
-  basePath: '/yraime.docs', 
+  ...(basePath ? { basePath } : {}),
 };
-
 
 export default withMDX(config);
