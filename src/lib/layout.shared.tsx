@@ -12,19 +12,21 @@ export function baseOptions(): BaseLayoutProps {
       {
         type: 'icon',
         label: 'YouTube',
-        // On force la marge directement sur l'icône React
+        text: "GitHub",
         icon: <FaYoutube size={20} />,
         url: 'https://www.youtube.com/@yraime',
       },
       {
         type: 'icon',
         label: 'TikTok',
+        text: "GitHub",
         icon: <FaTiktok size={20} />,
         url: 'https://www.tiktok.com/@yraime.off',
       },
       {
         type: 'icon',
         label: 'Discord',
+        text: "GitHub",
         icon: <FaDiscord size={20} />,
         url: 'https://discord.gg/DFgCdV4SNt',
       },

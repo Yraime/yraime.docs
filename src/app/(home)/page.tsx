@@ -508,7 +508,7 @@ type WarpItem = {
 const cardShell =
   "w-[min(78vw,330px)] rounded-lg border border-cyan-200/25 bg-gradient-to-br from-cyan-300/[0.09] to-slate-950/75 p-4 text-left text-slate-100 backdrop-blur-md sm:p-5";
 
-function TitleNode({ title }: { code: string; title: string }) {
+function TitleNode({ title }: { title: string }) {
   return (
     <div className="w-[92vw] max-w-3xl text-center">
       <h2 className="text-4xl font-black uppercase leading-[1.05] tracking-tight text-white drop-shadow-[0_0_28px_rgba(56,189,248,0.35)] sm:text-6xl lg:text-7xl">
