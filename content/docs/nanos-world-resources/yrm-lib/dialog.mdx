@@ -5,7 +5,7 @@ description: "Afficher des boîtes de dialogue interactives avec yrm-lib."
 
 # YRM.OpenDialog
 
-`YRM.OpenDialog` permet d'afficher des boîtes de dialogue interactives dans l'interface du joueur. Ce module est conçu pour demander une confirmation, présenter une information ou permettre au joueur de confirmer ou d'annuler une action.
+`YRM.OpenDialog` permet d'afficher des boîtes de dialogue interactives dans l'interface du joueur. Ce module permet de demander une confirmation, de présenter une information ou de proposer au joueur de confirmer ou d'annuler une action.
 
 ## Utilisation
 
@@ -20,7 +20,7 @@ YRM.OpenDialog({
     position = "center",
     confirmText = "Confirmer",
     canCancel = true,
-    cancelText = "Annuler",
+    cancelText = "Annuler"
 }, function(result)
     -- Traitement du résultat
 end)
@@ -28,21 +28,21 @@ end)
 
 ## Paramètres
 
-| Paramètre | Type | Obligatoire | Description |
-|---|---|---|---|
-| `title` | `string` | Non confirmé | Titre affiché dans la boîte de dialogue. |
-| `description` | `string` | Non confirmé | Texte descriptif de la boîte de dialogue. |
-| `position` | `string` | Non confirmé | Position de la boîte de dialogue à l'écran. |
-| `confirmText` | `string` | Non confirmé | Texte du bouton de confirmation. |
-| `canCancel` | `boolean` | Non confirmé | Indique si l'annulation est autorisée. |
-| `cancelText` | `string` | Non confirmé | Texte du bouton d'annulation. |
-| `callback` | `function` | Non confirmé | Fonction appelée pour récupérer le résultat de l'interaction. |
+| Paramètre | Type | Description |
+|---|---|---|
+| `title` | `string` | Titre affiché dans la boîte de dialogue. |
+| `description` | `string` | Texte descriptif de la boîte de dialogue. |
+| `position` | `string` | Position de la boîte de dialogue à l'écran. |
+| `confirmText` | `string` | Texte du bouton de confirmation. |
+| `canCancel` | `boolean` | Indique si l'annulation est autorisée. |
+| `cancelText` | `string` | Texte du bouton d'annulation. |
+| `callback` | `function` | Fonction appelée pour récupérer le résultat de l'interaction. |
 
 ## Positions disponibles
 
-Le module utilise le paramètre `position` pour définir l'emplacement de la boîte de dialogue.
+Le paramètre `position` définit l'emplacement de la boîte de dialogue.
 
-| Position | Utilisation |
+| Position | Description |
 |---|---|
 | `center` | Affiche la boîte de dialogue au centre de l'écran. |
 | `top` | Affiche la boîte de dialogue en haut de l'écran. |
@@ -50,12 +50,18 @@ Le module utilise le paramètre `position` pour définir l'emplacement de la bo�
 
 ## Gestion du résultat
 
-Le callback reçoit un objet `result` permettant de déterminer si le joueur a confirmé ou annulé l'action.
+Le callback reçoit une table `result` contenant le résultat de l'interaction.
 
 | Propriété | Type | Description |
 |---|---|---|
-| `result` | `table` | Résultat transmis au callback. |
 | `result.confirmed` | `boolean` | Indique si le joueur a confirmé l'action. |
+
+### Valeurs possibles
+
+| Valeur | Description |
+|---|---|
+| `true` | Le joueur a confirmé. |
+| `false` | Le joueur a annulé ou n'a pas confirmé. |
 
 ## Exemple simple
 
@@ -68,17 +74,17 @@ YRM.OpenDialog({
     position = "center",
     confirmText = "Confirmer",
     canCancel = true,
-    cancelText = "Annuler",
+    cancelText = "Annuler"
 }, function(result)
+
     if result and result.confirmed then
         print("Confirmation acceptée")
     else
         print("Confirmation annulée")
     end
+
 end)
 ```
-
-Dans cet exemple, le callback vérifie la propriété `result.confirmed` pour déterminer si le joueur a accepté la confirmation.
 
 ## Exemples d'utilisation
 
@@ -91,13 +97,15 @@ YRM.OpenDialog({
     position = "center",
     confirmText = "Quitter",
     canCancel = true,
-    cancelText = "Rester",
+    cancelText = "Rester"
 }, function(result)
+
     if result and result.confirmed then
         print("Le joueur a confirmé son départ")
     else
         print("Le joueur a annulé son départ")
     end
+
 end)
 ```
 
@@ -109,10 +117,12 @@ YRM.OpenDialog({
     description = "Ton personnage a été enregistré avec succès.",
     position = "center",
     confirmText = "Compris",
-    canCancel = false,
+    canCancel = false
 }, function(result)
+
     if result and result.confirmed then
         print("Information confirmée")
     end
+
 end)
 ```

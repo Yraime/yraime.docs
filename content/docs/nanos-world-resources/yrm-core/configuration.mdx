@@ -1,0 +1,152 @@
+---
+title: Configuration
+description: Guide de configuration de YRM Core.
+---
+
+# Configuration
+
+YRM Core dispose d'un fichier de configuration permettant de personnaliser le fonctionnement du framework selon les besoins de votre serveur.
+
+## Configuration générale
+
+Voici un exemple de configuration par défaut :
+
+```lua
+YRM = YRM or {}
+YRM.Config = YRM.Config or {}
+
+YRM.Config.Database = {
+    Type = "sqlite",
+    UTCOffset = 2,
+    SQLite = {
+        Path = "yrm_core.db"
+    },
+    MySQL = {
+        Host = "127.0.0.1",
+        Port = 3306,
+        Username = "yrm_user",
+        Password = "",
+        Database = "yrm_core"
+    }
+}
+
+YRM.Config.Persistence = {
+    Enabled = true,
+    SaveInterval = 300
+}
+
+YRM.Config.CommandPrefix = "/"
+```
+
+## Base de données
+
+La configuration `Database` permet de choisir et de configurer le système de stockage utilisé par YRM Core.
+
+### Type
+
+```lua
+Type = "sqlite"
+```
+
+Définit le système de base de données utilisé.
+
+- `sqlite` : utilise une base de données locale.
+- `mysql` : utilise un serveur MySQL externe.
+
+### UTCOffset
+
+```lua
+UTCOffset = 2
+```
+
+Définit le décalage horaire utilisé par le framework.
+
+Par exemple :
+- `1` : UTC+1.
+- `2` : UTC+2.
+- `-5` : UTC-5.
+- `0` : UTC.
+
+### SQLite
+
+```lua
+SQLite = {
+    Path = "yrm_core.db"
+}
+```
+
+Définit le chemin et le nom du fichier de base de données SQLite.
+
+La base de données est créée automatiquement si elle n'existe pas.
+
+### MySQL
+
+```lua
+MySQL = {
+    Host = "127.0.0.1",
+    Port = 3306,
+    Username = "yrm_user",
+    Password = "",
+    Database = "yrm_core"
+}
+```
+
+| Paramètre | Description |
+|---|---|
+| `Host` | Adresse du serveur MySQL. |
+| `Port` | Port de connexion MySQL. |
+| `Username` | Nom d'utilisateur MySQL. |
+| `Password` | Mot de passe MySQL. |
+| `Database` | Nom de la base de données à utiliser. |
+
+<Callout type="warn" title="Sécurité">
+Ne partagez jamais vos identifiants MySQL publiquement. Conservez votre mot de passe dans un environnement sécurisé.
+</Callout>
+
+## Persistence
+
+```lua
+YRM.Config.Persistence = {
+    Enabled = true,
+    SaveInterval = 300
+}
+```
+
+Configure le système de persistance du framework.
+
+| Paramètre | Description |
+|---|---|
+| `Enabled` | Active ou désactive la persistance. |
+| `SaveInterval` | Intervalle de sauvegarde en secondes. |
+
+Par défaut, `SaveInterval = 300` correspond à une sauvegarde toutes les 5 minutes.
+
+## Commandes
+
+```lua
+YRM.Config.CommandPrefix = "/"
+```
+
+Définit le préfixe utilisé pour exécuter les commandes personnalisées.
+
+Par exemple, avec `/`, une commande pourra être appelée sous la forme :
+
+```text
+/commande
+```
+
+Vous pouvez modifier ce préfixe selon vos préférences.
+
+## Identifiant unique
+
+```lua
+-- YRM.Config.UniqueID = { Enabled = true }
+```
+
+<Callout type="info" title="Bientôt disponible">
+Le système d'identifiants uniques est prévu pour une prochaine version de YRM Core. Sa configuration n'est pas encore disponible.
+</Callout>
+
+---
+
+**Conseil :** adaptez les paramètres à votre environnement avant de démarrer votre serveur. SQLite convient à une configuration locale, tandis que MySQL permet d'utiliser un serveur de base de données externe.

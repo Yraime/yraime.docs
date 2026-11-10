@@ -5,11 +5,11 @@ description: "Afficher des notifications personnalisées avec yrm-lib."
 
 # YRM.Notify
 
-`YRM.Notify` permet d'afficher des notifications visuelles dans l'interface du joueur. Ce module est conçu pour communiquer des informations importantes, confirmer une action ou signaler un avertissement dans un environnement nanos world.
+`YRM.Notify` permet d'afficher des notifications visuelles dans l'interface du joueur afin de communiquer une information, confirmer une action ou signaler un avertissement.
 
 ## Utilisation
 
-La fonction `YRM.Notify` accepte une table de configuration Lua contenant les paramètres de la notification.
+La fonction accepte une table de configuration Lua.
 
 ### Syntaxe
 
@@ -25,42 +25,32 @@ YRM.Notify({
 
 ## Paramètres
 
-| Paramètre | Type | Obligatoire | Description |
-|---|---|---|---|
-| `title` | `string` | Non confirmé | Titre affiché dans la notification. |
-| `description` | `string` | Non confirmé | Texte descriptif de la notification. |
-| `position` | `string` | Non confirmé | Position de la notification à l'écran. |
-| `type` | `string` | Non confirmé | Type visuel de la notification. |
-| `duration` | `number` | Non confirmé | Durée d'affichage, exprimée en millisecondes dans l'exemple. |
+| Paramètre | Type | Description |
+|---|---|---|
+| `title` | `string` | Titre de la notification. |
+| `description` | `string` | Texte descriptif de la notification. |
+| `position` | `string` | Position de la notification à l'écran. |
+| `type` | `string` | Type visuel de la notification. |
+| `duration` | `number` | Durée d'affichage en millisecondes. |
 
 ## Positions disponibles
 
-L'exemple fourni utilise la position `top-left`.
+L'exemple utilise la position `top-left`, qui place la notification en haut à gauche de l'écran.
 
 ```lua
 position = "top-left"
 ```
 
-Cette valeur correspond à une position en haut à gauche de l'écran, sous réserve de confirmation par l'implémentation du module.
-
-Les autres positions éventuellement prises en charge doivent être documentées à partir du code source.
-
 ## Types de notification
-
-Le module utilise plusieurs types visuels dans les exemples du projet.
 
 | Type | Utilisation |
 |---|---|
-| `accent` | Notification avec une mise en évidence visuelle. |
+| `accent` | Mettre une information en évidence. |
 | `success` | Confirmer la réussite d'une action. |
 | `error` | Signaler une erreur. |
-| `warning` | Attirer l'attention sur un avertissement. |
-
-Les styles exacts associés à chaque type dépendent de l'implémentation WebUI.
+| `warning` | Afficher un avertissement. |
 
 ## Exemple simple
-
-Afficher une notification de bienvenue lorsque la bibliothèque est opérationnelle.
 
 ```lua
 YRM.Notify({
@@ -71,8 +61,6 @@ YRM.Notify({
     duration = 5000
 })
 ```
-
-Dans cet exemple, la notification contient un titre, un message descriptif, une position, un type visuel et une durée d'affichage de 5 secondes.
 
 ## Exemples d'utilisation
 

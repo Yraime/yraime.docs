@@ -23,46 +23,46 @@ YRM.OpenForm({
             type = "text",
             required = true,
             placeholder = "Saisir un nom..."
-        },
+        }
     }
 }, function(result)
+
     if result.cancelled then return end
 
     local values = result.values
     print("Nom d'utilisateur :", values.username)
+
 end)
 ```
 
 ## Paramètres
 
-| Paramètre | Type | Obligatoire | Description |
-|---|---|---|---|
-| `title` | `string` | Non confirmé | Titre affiché dans le formulaire. |
-| `fields` | `table` | Non confirmé | Liste des champs à afficher dans le formulaire. |
-| `callback` | `function` | Non confirmé | Fonction appelée pour récupérer le résultat du formulaire. |
+| Paramètre | Type | Description |
+|---|---|---|
+| `title` | `string` | Titre affiché dans le formulaire. |
+| `fields` | `table` | Liste des champs à afficher dans le formulaire. |
+| `callback` | `function` | Fonction appelée pour récupérer le résultat du formulaire. |
 
 ## Paramètres des champs
 
-Chaque élément de la table `fields` représente un champ du formulaire.
+Chaque entrée de `fields` représente un champ du formulaire.
 
-| Paramètre | Type | Obligatoire | Description |
-|---|---|---|---|
-| `name` | `string` | Non confirmé | Identifiant du champ utilisé pour récupérer sa valeur dans `result.values`. |
-| `label` | `string` | Non confirmé | Texte affiché pour identifier le champ. |
-| `type` | `string` | Non confirmé | Type de champ à afficher. |
-| `required` | `boolean` | Non confirmé | Indique si le champ est obligatoire. |
-| `placeholder` | `string` | Non confirmé | Texte indicatif affiché lorsque le champ est vide. |
-| `default` | `any` | Non confirmé | Valeur initiale du champ. |
-| `disabled` | `boolean` | Non confirmé | Indique si le champ est désactivé. |
-| `options` | `table` | Non confirmé | Liste des options disponibles pour certains types de champs. |
-| `min` | `number` | Non confirmé | Valeur minimale, notamment pour les champs numériques et les curseurs. |
-| `max` | `number` | Non confirmé | Valeur maximale, notamment pour les champs numériques, les curseurs et les notes. |
+| Paramètre | Type | Description |
+|---|---|---|
+| `name` | `string` | Identifiant du champ utilisé pour récupérer sa valeur dans `result.values`. |
+| `label` | `string` | Texte affiché pour identifier le champ. |
+| `type` | `string` | Type de champ à afficher. |
+| `required` | `boolean` | Indique si le champ est obligatoire. |
+| `placeholder` | `string` | Texte indicatif affiché lorsque le champ est vide. |
+| `default` | `any` | Valeur initiale du champ. |
+| `disabled` | `boolean` | Indique si le champ est désactivé. |
+| `options` | `table` | Liste des options disponibles pour certains types de champs. |
+| `min` | `number` | Valeur minimale, notamment pour les champs numériques et les curseurs. |
+| `max` | `number` | Valeur maximale, notamment pour les champs numériques, les curseurs et les notes. |
 
 ## Types de champs disponibles
 
-Les exemples de la bibliothèque utilisent les types suivants.
-
-| Type | Utilisation |
+| Type | Description |
 |---|---|
 | `text` | Saisie de texte. |
 | `password` | Saisie d'un mot de passe. |
@@ -82,7 +82,7 @@ Les exemples de la bibliothèque utilisent les types suivants.
 
 Le type `select` utilise le paramètre `options` pour définir les choix disponibles.
 
-Chaque option contient un libellé `label` et une valeur `value`.
+Chaque option contient un `label` et une `value`.
 
 | Paramètre | Type | Description |
 |---|---|---|
@@ -108,13 +108,12 @@ Chaque option contient un libellé `label` et une valeur `value`.
 
 ## Gestion du résultat
 
-Le callback reçoit un objet `result` contenant l'état du formulaire et les valeurs saisies.
+Le callback reçoit une table `result` contenant l'état du formulaire et les valeurs saisies.
 
 | Propriété | Type | Description |
 |---|---|---|
-| `result` | `table` | Objet transmis au callback. |
 | `result.cancelled` | `boolean` | Indique si le formulaire a été annulé. |
-| `result.values` | `table` | Table contenant les valeurs des champs du formulaire. |
+| `result.values` | `table` | Contient les valeurs des champs du formulaire. |
 | `result.values[name]` | `any` | Valeur associée au nom du champ. |
 
 ## Exemple simple
@@ -135,15 +134,17 @@ YRM.OpenForm({
             label = "Âge",
             type = "number",
             required = true
-        },
+        }
     }
 }, function(result)
+
     if result.cancelled then return end
 
     local values = result.values
 
     print("Nom :", values.username)
     print("Âge :", values.age)
+
 end)
 ```
 
@@ -172,9 +173,10 @@ YRM.OpenForm({
             label = "J'accepte les conditions",
             type = "checkbox",
             required = true
-        },
+        }
     }
 }, function(result)
+
     if result.cancelled then return end
 
     local values = result.values
@@ -182,5 +184,6 @@ YRM.OpenForm({
     print("Couleur :", values.color)
     print("Notifications :", values.notifications)
     print("Conditions acceptées :", values.accepted)
+
 end)
 ```

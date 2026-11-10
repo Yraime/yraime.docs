@@ -1,0 +1,134 @@
+---
+title: Commands
+description: Guide de création et d'enregistrement des commandes avec YRM Core.
+---
+
+# Commands
+
+YRM Core intègre un système de commandes permettant de créer facilement des commandes personnalisées pour votre serveur Nanos World.
+
+Chaque commande peut posséder une description et une fonction `OnExecute`, appelée lorsque celle-ci est exécutée.
+
+## Créer une commande
+
+Pour enregistrer une commande, utilisez `YRM.RegisterCommand()`.
+
+```lua
+YRM.RegisterCommand("hello", {
+    Description = "Une commande de test",
+
+    OnExecute = function(player, args)
+        print("Hello World !")
+    end
+})
+```
+
+Dans cet exemple :
+- `hello` : nom de la commande.
+- `Description` : description de la commande.
+- `OnExecute` : fonction exécutée lors de son utilisation.
+- `player` : joueur ayant exécuté la commande.
+- `args` : arguments transmis à la commande.
+
+Pour appeler cette commande, utilisez le préfixe configuré dans YRM Core.
+
+Exemple avec le préfixe `/` :
+
+```text
+/hello
+```
+
+## Utiliser les arguments
+
+Les arguments permettent de transmettre des informations à une commande.
+
+Ils sont accessibles depuis la table `args`, en utilisant leur position.
+
+```lua
+YRM.RegisterCommand("hello", {
+    Description = "Saluer un joueur",
+
+    OnExecute = function(player, args)
+        local name = args[1] or "Inconnu"
+
+        print("Bonjour " .. name .. " !")
+    end
+})
+```
+
+Exemple d'utilisation :
+
+```text
+/hello John
+```
+
+Ici, `args[1]` contient `John`.
+
+Pour récupérer plusieurs arguments, utilisez `args[2]`, `args[3]`, etc.
+
+## Exemple : Soigner un joueur
+
+Voici un exemple plus concret utilisant les fonctions de YRM Core pour retrouver un joueur par son ID.
+
+```lua
+YRM.RegisterCommand("heal", {
+    Description = "Soigner un joueur par son ID",
+
+    OnExecute = function(player, args)
+        if not player then return end
+
+        local targetPlayer = player
+
+        if args[1] then
+            local found, err = YRM.FindPlayerByID(args[1])
+
+            if not found then
+                print(err or "Joueur introuvable.")
+                return
+            end
+
+            targetPlayer = found
+        end
+
+        local character = targetPlayer:GetControlledCharacter()
+
+        if not character then
+            return
+        end
+
+        character:SetHealth(character:GetMaxHealth())
+    end
+})
+```
+
+Utilisation :
+
+```text
+/heal
+/heal 123
+```
+
+- `/heal` : soigne le joueur qui exécute la commande.
+- `/heal 123` : soigne le joueur possédant l'ID `123`.
+
+## Fonctions utiles
+
+YRM Core fournit également plusieurs fonctions utilisables dans vos commandes.
+
+| Fonction | Description |
+|---|---|
+| `YRM.FindPlayerByID(id)` | Recherche un joueur par son ID. |
+| `YRM.GetCommandID(player)` | Récupère l'identifiant utilisé par le système de commandes. |
+| `YRM.GetUniqueID(player)` | Récupère l'identifiant unique du joueur, si disponible. |
+
+## Bonnes pratiques
+
+- Vérifiez toujours que `player` existe avant de l'utiliser.
+- Vérifiez que les arguments nécessaires sont présents.
+- Gérez les erreurs lorsque vous recherchez un joueur.
+- Vérifiez que le personnage du joueur est disponible avant de le manipuler.
+- Utilisez `Description` pour documenter vos commandes.
+
+---
+
+Vous pouvez maintenant créer vos propres commandes et exploiter les fonctionnalités de YRM Core pour développer les outils de votre serveur.

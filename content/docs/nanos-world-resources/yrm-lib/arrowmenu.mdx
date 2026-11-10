@@ -1,71 +1,186 @@
 ---
 title: "ShowArrowMenu"
-description: "Afficher un menu de sélection avec yrm-lib."
+description: "Afficher un menu de sélection avec yrm-lib, côté client et côté serveur."
 ---
 
 # YRM.ShowArrowMenu
 
 `YRM.ShowArrowMenu` permet d'afficher un menu de sélection dans l'interface du joueur. Il propose des éléments contenant plusieurs valeurs parmi lesquelles le joueur peut naviguer et sélectionner une option.
 
+La fonction est disponible **côté client et côté serveur**.
+
+Côté serveur, le menu est transmis au client à l'aide d'un événement distant. Le client affiche l'interface et renvoie le résultat au serveur.
+
 ## Utilisation
 
-La fonction `YRM.ShowArrowMenu` accepte une table de configuration Lua et une fonction de callback permettant de traiter l'action effectuée par le joueur.
+### Syntaxe côté client
 
-### Syntaxe
+Côté client, le menu est affiché au joueur local. Il n'est pas nécessaire de passer le paramètre `player`.
 
 ```lua
 YRM.ShowArrowMenu({
-    title = "Choisir un métier",
+    title = "Menu",
     position = "top-left",
+    selected = 0,
+
     items = {
         {
-            id = "job",
-            label = "Métier",
-            values = {
-                "Policier",
-                "Mécanicien",
-                "Médecin"
-            },
-            valueIndex = 0
+            id = "option",
+            label = "Ma première option",
+            type = "text"
         }
     }
 }, function(result)
-    if not result then return end
-
-    if result.action == "cancel" then
-        print("Menu fermé")
-        return
-    end
-
     if result.action == "select" and result.item then
         print("Option sélectionnée :", result.item.id)
     end
 end)
 ```
 
+### Syntaxe côté serveur
+
+Côté serveur, il faut passer le joueur en premier argument. Le menu sera transmis uniquement à ce joueur.
+
+```lua
+YRM.ShowArrowMenu(player, {
+    title = "Menu joueur",
+    position = "top-left",
+    selected = 0,
+
+    items = {
+        {
+            id = "option",
+            label = "Ma première option",
+            type = "text"
+        }
+    }
+}, function(player, result)
+    if result.action == "cancel" then
+        print("Le joueur a fermé le menu")
+        return
+    end
+
+    if result.action == "select" and result.item then
+        print(player, "a sélectionné :", result.item.id)
+    end
+end)
+```
+
+Le callback côté serveur reçoit deux paramètres :
+
+- `player` : le joueur qui utilise le menu.
+- `result` : le résultat de son interaction.
+
+Le serveur envoie les données au client avec l'événement `YRM:ShowArrowMenu`. Le client renvoie ensuite le résultat avec `YRM:ArrowMenuResult`.
+
+## Sous-menus
+
+Il est possible d'ouvrir un autre menu depuis le callback côté serveur.
+
+L'historique est automatiquement conservé. Le joueur peut revenir au menu précédent avec la touche Retour.
+
+```lua
+YRM.ShowArrowMenu(player, {
+    title = "Menu principal",
+    items = {
+        {
+            id = "settings",
+            label = "Paramètres",
+            type = "text"
+        }
+    }
+}, function(player, result)
+    if result.action ~= "select" or not result.item then
+        return
+    end
+
+    if result.item.id == "settings" then
+        YRM.ShowArrowMenu(player, {
+            title = "Paramètres",
+            items = {
+                {
+                    id = "sound",
+                    label = "Son",
+                    type = "switch",
+                    values = {
+                        "Activé",
+                        "Désactivé"
+                    },
+                    valueIndex = 0
+                }
+            }
+        }, function(player, result)
+            if result.action == "select" then
+                print("Paramètres sélectionnés")
+            end
+        end)
+    end
+end)
+```
+
+Cette navigation est gérée côté serveur. À chaque nouvel appel à `YRM.ShowArrowMenu`, le serveur conserve l'historique afin de permettre au joueur de revenir au menu précédent.
+
+À ne pas confondre avec `submenu`, qui permet de définir un sous-menu local directement dans les données d'un élément côté client.
+
+## Fermer le menu
+
+### Côté client
+
+Pour fermer le menu actuellement ouvert côté client :
+
+```lua
+YRM.CloseArrowMenu()
+```
+
+### Côté serveur
+
+Pour fermer le menu d'un joueur depuis le serveur :
+
+```lua
+YRM.CloseArrowMenu(player)
+```
+
+Cette fonction envoie l'événement distant `YRM:CloseArrowMenu` au client. Elle efface également son historique et son contexte de navigation, puis déclenche le callback en cours avec :
+
+```lua
+result.action == "cancel"
+```
+
 ## Paramètres
 
-| Paramètre | Type | Obligatoire | Description |
-|---|---|---|---|
-| `title` | `string` | Non confirmé | Titre affiché dans le menu. |
-| `position` | `string` | Non confirmé | Position du menu à l'écran. |
-| `items` | `table` | Non confirmé | Liste des éléments proposés dans le menu. |
-| `callback` | `function` | Non confirmé | Fonction appelée pour traiter l'action du joueur. |
+| Paramètre | Type | Description |
+|---|---|---|
+| `player` | `Player` | Côté serveur uniquement : joueur auquel afficher le menu. |
+| `title` | `string` | Titre affiché dans le menu. |
+| `position` | `string` | Position du menu à l'écran. |
+| `selected` | `number` | Index de l'élément sélectionné au départ. |
+| `items` | `table` | Liste des éléments proposés dans le menu. |
 
 ## Paramètres des éléments
 
-Chaque entrée de `items` définit un élément du menu et les valeurs disponibles.
+Chaque entrée de `items` définit un élément du menu.
 
-| Paramètre | Type | Obligatoire | Description |
-|---|---|---|---|
-| `id` | `string` | Non confirmé | Identifiant de l'élément. |
-| `label` | `string` | Non confirmé | Texte affiché pour l'élément. |
-| `values` | `table` | Non confirmé | Liste des valeurs disponibles. |
-| `valueIndex` | `number` | Non confirmé | Index initial de la valeur sélectionnée dans l'exemple. |
+| Paramètre | Type | Description |
+|---|---|---|
+| `id` | `string` | Identifiant de l'élément. |
+| `label` | `string` | Texte affiché pour l'élément. |
+| `description` | `string` | Description de l'élément. |
+| `type` | `string` | Type : `text`, `switch` ou `separator`. |
+| `values` | `table` | Liste des valeurs disponibles pour un switch. |
+| `valueIndex` | `number` | Index initial de la valeur sélectionnée (commence à 0). |
+| `submenu` | `table` | Définit un sous-menu local côté client. |
+
+## Types d'éléments
+
+| Type | Description |
+|---|---|
+| `text` | Élément de sélection classique. |
+| `switch` | Élément permettant de changer une valeur avec les flèches gauche et droite. |
+| `separator` | Séparateur visuel non sélectionnable. |
 
 ## Positions disponibles
 
-L'exemple fourni utilise la position `top-left`.
+Exemple de position :
 
 ```lua
 position = "top-left"
@@ -73,106 +188,83 @@ position = "top-left"
 
 ## Gestion du résultat
 
-Le callback reçoit un résultat permettant d'identifier l'action effectuée et l'élément concerné.
+Le callback reçoit une table contenant les informations de l'interaction.
 
 | Paramètre | Type | Description |
 |---|---|---|
-| `result` | `table` | Résultat renvoyé au callback. |
-| `result.action` | `string` | Action effectuée, comme `cancel` ou `select` dans l'exemple. |
+| `result.action` | `string` | Action effectuée : `select`, `cancel` ou `back`. |
+| `result.index` | `number` | Index de l'élément sélectionné (commence à 0). |
 | `result.item` | `table` | Élément associé à la sélection. |
-| `result.item.id` | `string` | Identifiant de l'élément sélectionné. |
+| `result.values` | `table` | Valeurs actuellement choisies dans les switches du menu actuel. |
+| `result.path` | `table` | Historique des sous-menus locaux parcourus côté client. |
+| `result.requestId` | `number` | Identifiant de la requête côté serveur. |
 
-## Exemple simple
+### Valeurs possibles de result.action
 
-Afficher un menu permettant de choisir un métier.
+| Action | Description |
+|---|---|
+| `select` | Le joueur a sélectionné un élément. |
+| `cancel` | Le joueur a fermé ou annulé le menu. |
+| `back` | Le joueur a demandé à revenir au menu précédent côté serveur. |
+
+## Exemple : récupérer les valeurs des switches
 
 ```lua
-YRM.ShowArrowMenu({
-    title = "Choisir un métier",
-    position = "top-left",
+YRM.ShowArrowMenu(player, {
+    title = "Paramètres",
     items = {
         {
-            id = "job",
-            label = "Métier",
+            id = "notifications",
+            label = "Notifications",
+            type = "switch",
             values = {
-                "Policier",
-                "Mécanicien",
-                "Médecin"
+                "Activées",
+                "Désactivées"
             },
             valueIndex = 0
         }
     }
-}, function(result)
-    if not result then return end
+}, function(player, result)
+    if result.action ~= "select" then
+        return
+    end
 
+    for _, value in ipairs(result.values) do
+        print(value.id, value.value)
+    end
+end)
+```
+
+## Exemple : fermer le menu depuis le serveur
+
+```lua
+YRM.ShowArrowMenu(player, {
+    title = "Menu",
+    items = {
+        {
+            id = "option",
+            label = "Une option",
+            type = "text"
+        }
+    }
+}, function(player, result)
     if result.action == "cancel" then
         print("Menu fermé")
-        return
-    end
-
-    if result.action == "select" and result.item then
-        print("Option sélectionnée :", result.item.id)
     end
 end)
+
+-- Fermer le menu du joueur
+YRM.CloseArrowMenu(player)
 ```
 
-## Exemples d'utilisation
+## Événements réseau
 
-### Choix d'un véhicule
+Les événements suivants assurent la communication entre le client et le serveur :
 
-```lua
-YRM.ShowArrowMenu({
-    title = "Choisir un véhicule",
-    position = "top-left",
-    items = {
-        {
-            id = "vehicle",
-            label = "Véhicule",
-            values = {
-                "Berline",
-                "SUV",
-                "Moto"
-            },
-            valueIndex = 0
-        }
-    }
-}, function(result)
-    if not result then return end
+| Événement | Direction | Description |
+|---|---|---|
+| `YRM:ShowArrowMenu` | Serveur → Client | Transmet les données pour afficher le menu. |
+| `YRM:ArrowMenuResult` | Client → Serveur | Transmet le résultat de l'interaction. |
+| `YRM:CloseArrowMenu` | Serveur → Client | Demande la fermeture du menu. |
 
-    if result.action == "select" and result.item then
-        print("Élément sélectionné :", result.item.id)
-    end
-end)
-```
-
-### Choix d'un grade
-
-```lua
-YRM.ShowArrowMenu({
-    title = "Choisir un grade",
-    position = "top-left",
-    items = {
-        {
-            id = "rank",
-            label = "Grade",
-            values = {
-                "Recrue",
-                "Membre",
-                "Chef"
-            },
-            valueIndex = 0
-        }
-    }
-}, function(result)
-    if not result then return end
-
-    if result.action == "cancel" then
-        print("Sélection annulée")
-        return
-    end
-
-    if result.action == "select" and result.item then
-        print("Élément sélectionné :", result.item.id)
-    end
-end)
-```
+La propriété `backAvailable` est une information interne envoyée par le serveur au client pour gérer le retour dans l'historique serveur. Elle ne doit pas être passée comme paramètre public à `YRM.ShowArrowMenu`.
